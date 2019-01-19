@@ -42,8 +42,8 @@ public interface CommonConstants {
 
     String CREATE_BY = "createBy";
 
-    String CREATE_TIME = "createTime";
+    String CREATE_DATA = "createData";
 
-    String UPDATE_TIME = "updateTime";
+    String UPDATE_DATA = "updateData";
 
 }
