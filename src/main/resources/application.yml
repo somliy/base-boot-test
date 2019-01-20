@@ -14,16 +14,16 @@ spring:
 
 
 
-##mybatis-plus mapper xml ÎÄ¼şµØÖ·
+##mybatis-plus mapper xml æ–‡ä»¶åœ°å€
 mybatis-plus:
-  mapper-locations: classpath*:mapper/*/*Mapper.xml
-  ##mybatis-plus type-aliases ÎÄ¼şµØÖ·
-  type-aliases-package: com.chillax.boot.modules.*.entity
+  mapper-locations: classpath:mapper/**/*.xml
+  ##mybatis-plus type-aliases æ–‡ä»¶åœ°å€
+  type-aliases-package: com.donger.baseboot.modules.*.entity
   global-config:
     db-config:
-      logic-delete-value: 1 # Âß¼­ÒÑÉ¾³ıÖµ(Ä¬ÈÏÎª 1)
-      logic-not-delete-value: 0 # Âß¼­Î´É¾³ıÖµ(Ä¬ÈÏÎª 0)
-      #Ö÷¼üÀàĞÍ  0:"Êı¾İ¿âID×ÔÔö", 1:"ÓÃ»§ÊäÈëID",2:"È«¾ÖÎ¨Ò»ID (Êı×ÖÀàĞÍÎ¨Ò»ID)", 3:"È«¾ÖÎ¨Ò»ID UUID";
+      logic-delete-value: 1 # é€»è¾‘å·²åˆ é™¤å€¼(é»˜è®¤ä¸º 1)
+      logic-not-delete-value: 0 # é€»è¾‘æœªåˆ é™¤å€¼(é»˜è®¤ä¸º 0)
+      #ä¸»é”®ç±»å‹  0:"æ•°æ®åº“IDè‡ªå¢", 1:"ç”¨æˆ·è¾“å…¥ID",2:"å…¨å±€å”¯ä¸€ID (æ•°å­—ç±»å‹å”¯ä¸€ID)", 3:"å…¨å±€å”¯ä¸€ID UUID";
       id-type: AUTO
 
 ---

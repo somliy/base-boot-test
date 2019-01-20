@@ -1,9 +1,10 @@
 package com.donger.baseboot;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication()
 public class BaseBootApplication {
 
     public static void main(String[] args) {
