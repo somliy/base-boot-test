@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019-01-08 19:21
  */
 @Configuration
-@MapperScan(basePackages = {"com.donger.baseboot.modules"})
+@MapperScan(basePackages = {"com.donger.baseboot.modules.*.mapper"})
 public class MyBatisPlusConfig {
 
     /**

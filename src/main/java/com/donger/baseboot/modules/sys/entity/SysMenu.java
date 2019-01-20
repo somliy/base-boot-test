@@ -1,7 +1,10 @@
 package com.donger.baseboot.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.donger.baseboot.core.entity.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -9,9 +12,11 @@ import java.util.List;
  * @Author: szwei
  * @date : 2019/1/19 18:34
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class SysMenu {
+public class SysMenu extends BaseEntity<SysMenu> {
 
+    @TableId
     private Long id;
     private Long parentId;
     private String name;

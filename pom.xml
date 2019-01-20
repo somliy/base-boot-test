@@ -42,13 +42,6 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>${mybatis-plus.version}</version>
-        </dependency>
-
-
         <!--hutool-->
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -75,6 +68,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
         <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>

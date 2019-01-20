@@ -1,5 +1,6 @@
 package com.donger.baseboot.modules.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.donger.baseboot.core.entity.BaseEntity;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import lombok.Data;
 @Data
 public class SysDept extends BaseEntity<SysDept> {
 
+    @TableId
     private Long id;
     private Long parentId;
     private Long name;
