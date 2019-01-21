@@ -28,4 +28,13 @@ public interface SysUserService extends IService<SysUser> {
      */
     SysUser queryByUserName(String username);
 
+    /**
+     * 修改密码
+     * @param userId
+     * @param password
+     * @param newpassword
+     * @return
+     */
+    boolean updatePassword(Long userId,String password,String newpassword);
+
 }

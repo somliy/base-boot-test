@@ -8,7 +8,7 @@ package com.donger.baseboot.core.common.constant;
 public interface CommonConstants {
 
 
-    Long SUPER_ADMIN = 1L;
+    int SUPER_ADMIN = 1;
 
     /**
      * 通用用户角色
@@ -45,5 +45,14 @@ public interface CommonConstants {
     String CREATE_DATA = "createData";
 
     String UPDATE_DATA = "updateData";
+
+    /**
+     * 菜单类型,0:目录，1:菜单，2:按钮
+     */
+    String MENU_TYPE_CATALOG = "0";
+
+    String MENU_TYPE_MENU = "1";
+
+    String MENU_TYPE_BUTTON = "2";
 
 }

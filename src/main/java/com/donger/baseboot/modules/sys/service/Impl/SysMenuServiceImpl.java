@@ -1,6 +1,8 @@
 package com.donger.baseboot.modules.sys.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.donger.baseboot.core.common.constant.CommonConstants;
 import com.donger.baseboot.modules.sys.entity.SysMenu;
 import com.donger.baseboot.modules.sys.mapper.SysMenuMapper;
 import com.donger.baseboot.modules.sys.service.SysMenuService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,21 +47,20 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> queryListParentId(Long parentId) {
-        return null;
+        return this.list(new QueryWrapper<SysMenu>().eq("parent_id",parentId).orderByAsc("order_num"));
     }
 
     @Override
     public List<SysMenu> queryNotButtonList() {
-//        return baseMapper.queryNotButtonList();
-        return null;
+        return this.list(new QueryWrapper<SysMenu>().ne("type","2").orderByAsc("order_num"));
     }
 
     @Override
     public List<SysMenu> getUserMenuList(Long userId) {
         //系统管理员，拥有最高权限
-        /*if(userId == Constant.SUPER_ADMIN){
+        if(userId == CommonConstants.SUPER_ADMIN){
             return getAllMenuList(null);
-        }*/
+        }
 
         //用户菜单列表
         List<Long> menuIdList = sysUserService.queryAllMenuId(userId);
@@ -68,9 +70,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public void delete(Long menuId){
         //删除菜单
-//        this.deleteById(menuId);
+        baseMapper.deleteById(menuId);
         //删除菜单与角色关联
-//        sysRoleMenuService.deleteByMap(new MapUtils().put("menu_id", menuId));
+        sysRoleMenuService.deleteBatchByMenus(new Long[]{menuId});
     }
 
     /**
@@ -93,9 +95,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         for(SysMenu entity : menuList){
             //目录
-           /* if(entity.getType() == Constant.MenuType.CATALOG.getValue()){
-                entity.setList(getMenuTreeList(queryListParentId(entity.getMenuId(), menuIdList), menuIdList));
-            }*/
+            if(entity.getType() == CommonConstants.MENU_TYPE_MENU){
+                entity.setList(getMenuTreeList(queryListParentId(entity.getId(), menuIdList), menuIdList));
+            }
             subMenuList.add(entity);
         }
 

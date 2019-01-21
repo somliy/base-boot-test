@@ -12,7 +12,7 @@ import java.util.List;
 public interface SysRoleService extends IService<SysRole> {
 
     /**
-     * 查询所有权限
+     * 获取所有角色
      */
     List<SysRole> getAllRole();
 

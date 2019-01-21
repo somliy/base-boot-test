@@ -40,4 +40,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return baseMapper.selectOne(Wrappers.query(new SysUser()).eq("username",username));
     }
 
+    @Override
+    public boolean updatePassword(Long userId, String password, String newpassword) {
+        SysUser sysUser = new SysUser();
+        sysUser.setId(userId);
+        sysUser.setPassword(password);
+        return this.updateById(sysUser);
+    }
+
 }

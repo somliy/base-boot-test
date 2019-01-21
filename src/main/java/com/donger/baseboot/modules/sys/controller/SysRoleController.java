@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
 import com.donger.baseboot.modules.sys.entity.SysRole;
-import com.donger.baseboot.modules.sys.entity.SysUser;
 import com.donger.baseboot.modules.sys.service.SysRoleMenuService;
 import com.donger.baseboot.modules.sys.service.SysRoleService;
 import lombok.AllArgsConstructor;

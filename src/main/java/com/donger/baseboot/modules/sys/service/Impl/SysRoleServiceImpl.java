@@ -30,7 +30,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public List<SysRole> getAllRole() {
-        return baseMapper.selectList(new QueryWrapper<SysRole>());
+        return baseMapper.selectList(null);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         this.removeByIds(Arrays.asList(roleIds));
 
         //删除角色与菜单关联
-        sysRoleMenuService.deleteBatch(roleIds);
+        sysRoleMenuService.deleteBatchByRoles(roleIds);
 
         //删除角色与用户关联
         sysUserRoleService.deleteBatch(roleIds);

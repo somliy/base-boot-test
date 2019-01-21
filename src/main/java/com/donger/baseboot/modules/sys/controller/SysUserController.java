@@ -1,22 +1,18 @@
 package com.donger.baseboot.modules.sys.controller;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
 import com.donger.baseboot.modules.sys.entity.SysUser;
+import com.donger.baseboot.modules.sys.form.PasswordForm;
 import com.donger.baseboot.modules.sys.service.SysUserRoleService;
 import com.donger.baseboot.modules.sys.service.SysUserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,7 +46,7 @@ public class SysUserController {
      */
     @PostMapping("/add")
     public Result add(@RequestBody SysUser entity){
-        sysUserService.save(entity);
+        sysUserService.saveOrUpdate(entity);
         return Res.ok();
     }
 
@@ -90,18 +86,23 @@ public class SysUserController {
      */
     @GetMapping("/info/{userId}")
     public Result userInfo(@PathVariable(value = "userId") Long userId){
+        SysUser user = sysUserService.getById(userId+"");
         //获取用户所属的角色列表
         List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
-        SysUser user = null;
         user.setRoleIdList(roleIdList);
-        try {
-            user = sysUserService.getById(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
         return Res.ok(user);
     }
 
+    /**
+     * 修改登录用户密码
+     */
+    @PostMapping("/password")
+    public Result password(@RequestBody PasswordForm form){
+        //更新密码
+        boolean flag = sysUserService.updatePassword(1L ,form.getPassword(),form.getNewPassword());
+        if(!flag){
+            return Res.error("原密码不正确");
+        }
+        return Res.ok();
+    }
 }

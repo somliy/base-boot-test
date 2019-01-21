@@ -19,5 +19,10 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
     /**
      * 根据角色ID数组，批量删除
      */
-    int deleteBatch(Long[] roleIds);
+    boolean deleteBatchByRoles(Long[] roleIds);
+
+    /**
+     * 根据菜单ID数组，批量删除
+     */
+    boolean deleteBatchByMenus(Long[] menuIds);
 }
