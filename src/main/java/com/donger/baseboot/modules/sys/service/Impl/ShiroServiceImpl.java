@@ -1,12 +1,12 @@
 package com.donger.baseboot.modules.sys.service.Impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.donger.baseboot.core.common.constant.CommonConstants;
 import com.donger.baseboot.modules.sys.entity.SysMenu;
 import com.donger.baseboot.modules.sys.mapper.SysMenuMapper;
 import com.donger.baseboot.modules.sys.mapper.SysUserMapper;
 import com.donger.baseboot.modules.sys.service.ShiroService;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -35,7 +35,7 @@ public class ShiroServiceImpl implements ShiroService {
         //用户权限列表
         Set<String> permsSet = new HashSet<>();
         for(String perms : permsList){
-            if(StringUtils.isBlank(perms)){
+            if(StrUtil.hasEmpty(perms)){
                 continue;
             }
             permsSet.addAll(Arrays.asList(perms.trim().split(",")));

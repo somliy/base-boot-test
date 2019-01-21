@@ -1,5 +1,6 @@
 package com.donger.baseboot.modules.sys.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,7 +12,6 @@ import com.donger.baseboot.modules.sys.entity.SysMenu;
 import com.donger.baseboot.modules.sys.service.SysMenuService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
@@ -130,7 +130,7 @@ public class SysMenuController {
      * 验证参数是否正确
      */
     private void verifyForm(SysMenu menu){
-        if(StringUtils.isBlank(menu.getName())){
+        if(StrUtil.hasEmpty(menu.getName())){
             throw new BizException("菜单名称不能为空");
         }
 
@@ -140,7 +140,7 @@ public class SysMenuController {
 
         //菜单
         if(menu.getType() == CommonConstants.MENU_TYPE_MENU){
-            if(StringUtils.isBlank(menu.getPath())){
+            if(StrUtil.hasEmpty(menu.getPath())){
                 throw new BizException("菜单Path不能为空");
             }
         }
