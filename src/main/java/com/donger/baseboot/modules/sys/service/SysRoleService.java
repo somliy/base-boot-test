@@ -26,4 +26,11 @@ public interface SysRoleService extends IService<SysRole> {
      * @param roleIds
      */
     void deleteBatch(Long[] roleIds);
+
+    /**
+     * 添加角色
+     * @param sysRole
+     * @return
+     */
+    boolean addRole(SysRole sysRole);
 }

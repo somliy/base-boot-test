@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
 import com.donger.baseboot.modules.sys.entity.SysUser;
+import com.donger.baseboot.modules.sys.entity.SysUserRole;
 import com.donger.baseboot.modules.sys.form.PasswordForm;
 import com.donger.baseboot.modules.sys.service.SysUserRoleService;
 import com.donger.baseboot.modules.sys.service.SysUserService;
@@ -46,7 +47,7 @@ public class SysUserController {
      */
     @PostMapping("/add")
     public Result add(@RequestBody SysUser entity){
-        sysUserService.saveOrUpdate(entity);
+        sysUserService.addUser(entity);
         return Res.ok();
     }
 

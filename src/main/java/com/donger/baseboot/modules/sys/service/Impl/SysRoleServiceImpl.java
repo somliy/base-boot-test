@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.donger.baseboot.modules.sys.entity.SysRole;
+import com.donger.baseboot.modules.sys.entity.SysUserRole;
 import com.donger.baseboot.modules.sys.mapper.SysRoleMapper;
 import com.donger.baseboot.modules.sys.service.SysRoleMenuService;
 import com.donger.baseboot.modules.sys.service.SysRoleService;
@@ -49,5 +50,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
         //删除角色与用户关联
         sysUserRoleService.deleteBatch(roleIds);
+    }
+
+    @Override
+    public boolean addRole(SysRole sysRole) {
+        baseMapper.insert(sysRole);
+        for(Long menuId:sysRole.getMenuIdList()){
+            sysUserRoleService.save(new SysUserRole(sysRole.getId(),menuId));
+        }
+        return false;
     }
 }

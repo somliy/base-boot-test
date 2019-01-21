@@ -27,6 +27,11 @@ public class SysMenu extends BaseEntity<SysMenu> {
     private String icon;
     private String isShow;
     private String permission;
+    /**
+     * 父菜单名称
+     */
+    @TableField(exist=false)
+    private String parentName;
 
     /**
      * ztree属性

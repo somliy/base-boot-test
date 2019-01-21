@@ -1,15 +1,15 @@
 package com.donger.baseboot.modules.sys.service.Impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.donger.baseboot.modules.sys.entity.SysUser;
+import com.donger.baseboot.modules.sys.entity.SysUserRole;
 import com.donger.baseboot.modules.sys.mapper.SysUserMapper;
+import com.donger.baseboot.modules.sys.service.SysUserRoleService;
 import com.donger.baseboot.modules.sys.service.SysUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +23,8 @@ import java.util.List;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final SysUserMapper sysUserMapper;
+    private final SysUserRoleService sysUserRoleService;
+
 
 
     @Override
@@ -46,6 +48,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setId(userId);
         sysUser.setPassword(password);
         return this.updateById(sysUser);
+    }
+
+    @Override
+    @Transactional
+    public boolean addUser(SysUser entity) {
+        baseMapper.insert(entity);
+        for(Long roleId:entity.getRoleIdList()){
+            sysUserRoleService.save(new SysUserRole(entity.getId(),roleId));
+        }
+        return true;
     }
 
 }

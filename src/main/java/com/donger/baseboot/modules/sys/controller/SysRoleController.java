@@ -90,7 +90,4 @@ public class SysRoleController {
         role.setMenuIdList(menuIdList);
         return Res.ok(role);
     }
-
-
-
 }
