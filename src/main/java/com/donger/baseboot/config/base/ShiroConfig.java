@@ -63,7 +63,7 @@ public class ShiroConfig {
         filterMap.put("/swagger-resources/**", "anon");
         filterMap.put("/captcha.jpg", "anon");
         //对所有用户认证
-        filterMap.put("/**","authc");
+//        filterMap.put("/**","authc");
 
         //登录
         shiroFilter.setLoginUrl("/login");

@@ -37,10 +37,6 @@ public class MyRealm extends AuthorizingRealm {
         Long userId = user.getId();
         Set<String> permissions = shiroService.getUserPermissions(userId);
 
-        //拥有角色
-/*        List<String> roles = sysUserRoleService.queryRoleIdList(userId);
-        authorizationInfo.setRoles(roles);*/
-
         // 拥有权限
         authorizationInfo.setStringPermissions(permissions);
         return authorizationInfo;
@@ -55,8 +51,13 @@ public class MyRealm extends AuthorizingRealm {
         String username = (String) authenticationToken.getPrincipal();
         SysUser sysUser = sysUserService.queryByUserName(username);
         if (sysUser == null) {
-            throw new UnknownAccountException("当前账户不存在");
+            throw new UnknownAccountException("账号或密码不正确");
         }
+        //账号锁定
+        if("0".equals(sysUser.getStatus())){
+            throw new LockedAccountException("账号已被锁定,请联系管理员");
+        }
+
         return new SimpleAuthenticationInfo(sysUser.getUsername(), sysUser.getPassword(), ByteSource.Util.bytes("TestSalt"), super.getName());
     }
 

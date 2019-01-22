@@ -9,9 +9,11 @@ import com.donger.baseboot.core.common.exception.BizException;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
 import com.donger.baseboot.modules.sys.entity.SysMenu;
+import com.donger.baseboot.modules.sys.entity.SysUser;
 import com.donger.baseboot.modules.sys.service.SysMenuService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
@@ -54,6 +56,15 @@ public class SysMenuController {
     }
 
     /**
+     * 导航菜单
+     */
+    @RequestMapping("/nav")
+    public Result nav(){
+        SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        List<SysMenu> menuList = sysMenuService.getUserMenuList(1L);
+        return Res.ok(menuList);
+    }
+    /**
      * 选择菜单(添加、修改菜单)
      */
     @GetMapping("/select")
@@ -92,6 +103,11 @@ public class SysMenuController {
      */
     @GetMapping("/delete")
     public Result delete(Long id){
+        //判断是否有子菜单或按钮
+        List<SysMenu> menuList = sysMenuService.queryListParentId(id);
+        if(menuList.size() > 0){
+            return Res.error("请先删除子菜单或按钮");
+        }
         sysMenuService.removeById(id);
         return Res.ok();
     }

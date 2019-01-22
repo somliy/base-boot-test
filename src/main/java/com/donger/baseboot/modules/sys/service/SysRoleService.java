@@ -33,4 +33,10 @@ public interface SysRoleService extends IService<SysRole> {
      * @return
      */
     boolean addRole(SysRole sysRole);
+
+    /**
+     * 修改角色
+     * @param sysRole
+     */
+    boolean updateRoleById(SysRole sysRole);
 }

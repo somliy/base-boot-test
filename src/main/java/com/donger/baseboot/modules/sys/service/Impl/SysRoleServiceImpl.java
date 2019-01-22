@@ -1,10 +1,9 @@
 package com.donger.baseboot.modules.sys.service.Impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.donger.baseboot.modules.sys.entity.SysRole;
+import com.donger.baseboot.modules.sys.entity.SysRoleMenu;
 import com.donger.baseboot.modules.sys.entity.SysUserRole;
 import com.donger.baseboot.modules.sys.mapper.SysRoleMapper;
 import com.donger.baseboot.modules.sys.service.SysRoleMenuService;
@@ -55,6 +54,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public boolean addRole(SysRole sysRole) {
         baseMapper.insert(sysRole);
+        //添加角色和菜单的关联
+        for(Long menuId:sysRole.getMenuIdList()){
+            sysUserRoleService.save(new SysUserRole(sysRole.getId(),menuId));
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateRoleById(SysRole sysRole) {
+        //删除角色和菜单的关联
+        sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("role_id",sysRole.getId()));
+        //添加角色和菜单的关联
         for(Long menuId:sysRole.getMenuIdList()){
             sysUserRoleService.save(new SysUserRole(sysRole.getId(),menuId));
         }

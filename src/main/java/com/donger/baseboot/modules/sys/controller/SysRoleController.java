@@ -45,7 +45,7 @@ public class SysRoleController {
      */
     @PostMapping("/add")
     public Result add(@RequestBody SysRole entity){
-        sysRoleService.save(entity);
+        sysRoleService.addRole(entity);
         return Res.ok();
     }
 
@@ -76,7 +76,7 @@ public class SysRoleController {
      */
     @PostMapping("/update")
     public Result update(@RequestBody SysRole entity){
-        sysRoleService.updateById(entity);
+        sysRoleService.updateRoleById(entity);
         return Res.ok();
     }
     /**

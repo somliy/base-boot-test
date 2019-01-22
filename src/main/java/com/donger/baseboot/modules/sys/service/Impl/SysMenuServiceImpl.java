@@ -9,11 +9,9 @@ import com.donger.baseboot.modules.sys.service.SysMenuService;
 import com.donger.baseboot.modules.sys.service.SysRoleMenuService;
 import com.donger.baseboot.modules.sys.service.SysUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -95,7 +93,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         for(SysMenu entity : menuList){
             //目录
-            if(entity.getType() == CommonConstants.MENU_TYPE_MENU){
+            if(entity.getType().equals(CommonConstants.MENU_TYPE_CATALOG)){
                 entity.setList(getMenuTreeList(queryListParentId(entity.getId(), menuIdList), menuIdList));
             }
             subMenuList.add(entity);
