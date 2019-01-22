@@ -1,12 +1,13 @@
 package com.donger.baseboot.modules.sys.controller;
 
+import com.donger.baseboot.core.utils.Res;
+import com.donger.baseboot.core.utils.Result;
 import com.donger.baseboot.modules.sys.entity.SysUser;
 import com.donger.baseboot.modules.sys.service.SysUserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class SysLoginController {
      * 登录
      */
     @PostMapping("/sys/login")
-    public String login(@RequestBody SysUser entity) throws IOException {
+    public Result login(@RequestBody SysUser entity) throws IOException {
       /*  boolean captcha = sysCaptchaService.validate(form.getUuid(), form.getCaptcha());
         if (!captcha) {
             return R.error("验证码不正确");
@@ -51,14 +52,29 @@ public class SysLoginController {
 
         return Res.ok("登录成功");*/
 
-        Subject subject = SecurityUtils.getSubject();
+        /*Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(entity.getUsername(), entity.getPassword());
         try {
             subject.login(token);
         } catch (AuthenticationException e) {
             return e.getMessage();
         }
-        return "login success";
+        return "login success";*/
+
+        try{
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(entity.getUsername(), entity.getPassword());
+            subject.login(token);
+        }catch (UnknownAccountException e) {
+            return Res.error(e.getMessage());
+        }catch (IncorrectCredentialsException e) {
+            return Res.error("账号或密码不正确");
+        }catch (LockedAccountException e) {
+            return Res.error("账号已被锁定,请联系管理员");
+        }catch (AuthenticationException e) {
+            return Res.error("账户验证失败");
+        }
+        return Res.ok();
     }
 
 
