@@ -137,7 +137,7 @@ public class SysMenuController {
      * 根据id查询菜单信息
      */
     @PostMapping("/info/{menuId}")
-    public Result userInfo(@PathParam("menuId") Long menuId){
+    public Result userInfo(@PathVariable("menuId") Long menuId){
         SysMenu menu = sysMenuService.getById(menuId);
         return Res.ok(menu);
     }

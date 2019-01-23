@@ -26,7 +26,7 @@ import java.util.Map;
 public class ShiroConfig {
 
     @Bean("sessionManager")
-    public SessionManager sessionManager(){
+    public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionIdCookieEnabled(true);
@@ -46,31 +46,16 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
-
-        //oauth过滤
-  /*      Map<String, Filter> filters = new HashMap<>();
-        filters.put("oauth2", new OAuth2Filter());
-        shiroFilter.setFilters(filters);*/
-
         Map<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/druid/**", "anon");
-        filterMap.put("/app/**", "anon");
         filterMap.put("/sys/login", "anon");
         filterMap.put("/swagger/**", "anon");
         filterMap.put("/v2/api-docs", "anon");
         filterMap.put("/swagger-ui.html", "anon");
         filterMap.put("/swagger-resources/**", "anon");
-        filterMap.put("/captcha.jpg", "anon");
         //对所有用户认证
 //        filterMap.put("/**","authc");
-
-        //登录
-        shiroFilter.setLoginUrl("/login");
-        //首页
-        shiroFilter.setSuccessUrl("/index");
-        //错误页面，认证不通过跳转
-        shiroFilter.setUnauthorizedUrl("/error");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 
         return shiroFilter;
