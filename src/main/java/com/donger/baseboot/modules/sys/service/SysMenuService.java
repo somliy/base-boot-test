@@ -2,6 +2,7 @@ package com.donger.baseboot.modules.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.donger.baseboot.modules.sys.entity.SysMenu;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,13 +11,6 @@ import java.util.List;
  * @date : 2019/1/19 19:36
  */
 public interface SysMenuService extends IService<SysMenu> {
-
-    /**
-     * 根据父菜单，查询子菜单
-     * @param parentId 父菜单ID
-     * @param menuIdList  用户菜单ID
-     */
-    List<SysMenu> queryListParentId(Long parentId, List<Long> menuIdList);
 
     /**
      * 根据父菜单，查询子菜单
@@ -38,4 +32,6 @@ public interface SysMenuService extends IService<SysMenu> {
      * 删除
      */
     void delete(Long menuId);
+
+
 }

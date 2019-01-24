@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.donger.baseboot.core.common.constant.CommonConstants;
+import com.donger.baseboot.core.common.entity.UserDetail;
 import com.donger.baseboot.core.common.exception.BizException;
+import com.donger.baseboot.core.common.web.BaseController;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
 import com.donger.baseboot.modules.sys.entity.SysMenu;
@@ -27,7 +29,7 @@ import java.util.List;
 @RequestMapping("/sys/menu")
 @AllArgsConstructor
 @Slf4j
-public class SysMenuController {
+public class SysMenuController extends BaseController {
     
     private final SysMenuService sysMenuService;
 
@@ -60,8 +62,9 @@ public class SysMenuController {
      */
     @RequestMapping("/nav")
     public Result nav(){
-        SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
-        List<SysMenu> menuList = sysMenuService.getUserMenuList(1L);
+        UserDetail userDetail = getUserDetail();
+
+        List<SysMenu> menuList = sysMenuService.getUserMenuList(userDetail.getUser().getId());
         return Res.ok(menuList);
     }
     /**

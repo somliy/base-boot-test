@@ -16,6 +16,7 @@ import java.util.List;
 @Data
 public class SysMenu extends BaseEntity<SysMenu> {
 
+    public static final long LEVEL_ONE_MENU = 0L;
     @TableId
     private Long id;
     private Long parentId;
@@ -40,7 +41,7 @@ public class SysMenu extends BaseEntity<SysMenu> {
     private Boolean open;
 
     @TableField(exist=false)
-    private List<?> list;
+    private List<SysMenu> childern;
 
 
 
