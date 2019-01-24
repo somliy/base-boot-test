@@ -1,5 +1,6 @@
 package com.donger.baseboot.config.base;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +15,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @date 2019-01-11 20:34
  */
 @Configuration
+@AllArgsConstructor
 public class RedisConfig {
-
-    @Autowired
-    private RedisConnectionFactory factory;
+    private final RedisConnectionFactory factory;
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {

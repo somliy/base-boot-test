@@ -1,5 +1,6 @@
-package com.donger.baseboot.core.web;
+package com.donger.baseboot.core.common.web;
 
+import com.donger.baseboot.core.common.entity.UserDetail;
 import com.donger.baseboot.modules.sys.entity.SysUser;
 import org.apache.shiro.SecurityUtils;
 

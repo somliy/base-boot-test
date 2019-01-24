@@ -64,12 +64,10 @@ public class SysMenuController extends BaseController {
      */
     @RequestMapping("/nav")
     public Result nav(){
-        UserDetail userDetail = this.getUserDetail();
-        if(userDetail == null){
-            throw new BizException("未获取到用户信息");
-        }
+        UserDetail userDetail = getUserDetail();
+
         List<SysMenu> menuList = sysMenuService.getUserMenuList(userDetail.getUser().getId());
-        return Res.ok().data(menuList);
+        return Res.ok(menuList);
     }
     /**
      * 选择菜单(添加、修改菜单)

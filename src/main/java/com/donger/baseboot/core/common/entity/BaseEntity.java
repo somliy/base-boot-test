@@ -1,4 +1,4 @@
-package com.donger.baseboot.core.entity;
+package com.donger.baseboot.core.common.entity;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Getter;

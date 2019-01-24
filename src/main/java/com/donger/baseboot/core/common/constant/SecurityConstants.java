@@ -32,4 +32,9 @@ public interface SecurityConstants {
      * token分割符
      */
     String TOKEN_SPLIT = "Bearer ";
+
+    /**
+     * 验证码有效期
+     */
+    int CODE_TIME = 60;
 }

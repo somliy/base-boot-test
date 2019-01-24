@@ -40,15 +40,6 @@ public class SysDeptController extends BaseController {
     }
 
     /**
-     * 树形部门列表
-     */
-    @RequestMapping("/dept/tree")
-    public Result nav(){
-        List<SysDept> depts = sysDeptService.getUserDeptList();
-        return Res.ok().data(depts);
-    }
-
-    /**
      * 添加部门
      *
      * @param entity
@@ -56,8 +47,6 @@ public class SysDeptController extends BaseController {
      */
     @PostMapping("/add")
     public Result add(@RequestBody SysDept entity) {
-        entity.setCreateBy(this.getUserDetail().getUser().getId());
-        entity.setCreateDate(LocalDateTime.now());
         sysDeptService.save(entity);
         return Res.ok();
     }

@@ -55,4 +55,14 @@ public interface CommonConstants {
 
     String MENU_TYPE_BUTTON = "2";
 
+
+
+    /**
+     * redis token  前传
+     */
+    String DEFAULT_TOKEN_KEY = "DEFAULT_TOKEN_KEY_";
+
+    String DEFATULT_PHONE_KEY = "DEFAULT_PHONE_KEY_";
+
+
 }
