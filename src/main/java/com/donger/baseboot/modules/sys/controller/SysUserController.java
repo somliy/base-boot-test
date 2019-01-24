@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
+import com.donger.baseboot.core.web.BaseController;
+import com.donger.baseboot.core.web.UserDetail;
 import com.donger.baseboot.modules.sys.entity.SysUser;
 import com.donger.baseboot.modules.sys.form.PasswordForm;
 import com.donger.baseboot.modules.sys.service.SysUserRoleService;
@@ -13,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -24,10 +27,9 @@ import java.util.List;
 @RequestMapping("/sys/user")
 @AllArgsConstructor
 @Slf4j
-public class SysUserController {
+public class SysUserController extends BaseController {
 
     private final SysUserService sysUserService;
-    private final SysUserRoleService sysUserRoleService;
 
 
     /**
@@ -46,6 +48,8 @@ public class SysUserController {
      */
     @PostMapping("/add")
     public Result add(@RequestBody SysUser entity){
+        entity.setCreateBy(this.getUserDetail().getUser().getId());
+        entity.setCreateDate(LocalDateTime.now());
         sysUserService.addUser(entity);
         return Res.ok();
     }
@@ -77,6 +81,8 @@ public class SysUserController {
      */
     @PostMapping("/update")
     public Result update(@RequestBody SysUser entity){
+        entity.setUpdateBy(this.getUserDetail().getUser().getId());
+        entity.setUpdateDate(LocalDateTime.now());
         sysUserService.updateUserById(entity);
         return Res.ok();
     }
@@ -84,13 +90,10 @@ public class SysUserController {
     /**
      * 根据id查询用户信息
      */
-    @GetMapping("/info/{userId}")
-    public Result userInfo(@PathVariable(value = "userId") Long userId){
-        SysUser user = sysUserService.getById(userId+"");
-        //获取用户所属的角色列表
-        List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
-        user.setRoleIdList(roleIdList);
-        return Res.ok(user);
+    @GetMapping("/info")
+    public Result userInfo(){
+        UserDetail userDetail = this.getUserDetail();
+        return Res.ok(userDetail);
     }
 
     /**

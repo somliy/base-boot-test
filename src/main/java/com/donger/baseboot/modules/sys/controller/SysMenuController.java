@@ -8,6 +8,8 @@ import com.donger.baseboot.core.common.constant.CommonConstants;
 import com.donger.baseboot.core.common.exception.BizException;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
+import com.donger.baseboot.core.web.BaseController;
+import com.donger.baseboot.core.web.UserDetail;
 import com.donger.baseboot.modules.sys.entity.SysMenu;
 import com.donger.baseboot.modules.sys.entity.SysUser;
 import com.donger.baseboot.modules.sys.service.SysMenuService;
@@ -17,7 +19,9 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: szwei
@@ -27,7 +31,7 @@ import java.util.List;
 @RequestMapping("/sys/menu")
 @AllArgsConstructor
 @Slf4j
-public class SysMenuController {
+public class SysMenuController extends BaseController {
     
     private final SysMenuService sysMenuService;
 
@@ -60,9 +64,12 @@ public class SysMenuController {
      */
     @RequestMapping("/nav")
     public Result nav(){
-        SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
-        List<SysMenu> menuList = sysMenuService.getUserMenuList(1L);
-        return Res.ok(menuList);
+        UserDetail userDetail = this.getUserDetail();
+        if(userDetail == null){
+            throw new BizException("未获取到用户信息");
+        }
+        List<SysMenu> menuList = sysMenuService.getUserMenuList(userDetail.getUser().getId());
+        return Res.ok().data(menuList);
     }
     /**
      * 选择菜单(添加、修改菜单)
@@ -92,6 +99,8 @@ public class SysMenuController {
     public Result add(@RequestBody SysMenu entity){
         //数据校验
         verifyForm(entity);
+        entity.setCreateBy(this.getUserDetail().getUser().getId());
+        entity.setCreateDate(LocalDateTime.now());
         sysMenuService.save(entity);
         return Res.ok();
     }
@@ -130,6 +139,8 @@ public class SysMenuController {
     public Result update(@RequestBody SysMenu entity){
         //数据校验
         verifyForm(entity);
+        entity.setUpdateBy(this.getUserDetail().getUser().getId());
+        entity.setUpdateDate(LocalDateTime.now());
         sysMenuService.updateById(entity);
         return Res.ok();
     }

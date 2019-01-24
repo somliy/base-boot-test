@@ -52,13 +52,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    @Transactional
     public boolean addRole(SysRole sysRole) {
         baseMapper.insert(sysRole);
         //添加角色和菜单的关联
         for(Long menuId:sysRole.getMenuIdList()){
             sysUserRoleService.save(new SysUserRole(sysRole.getId(),menuId));
         }
-        return false;
+        return true;
     }
 
     @Override

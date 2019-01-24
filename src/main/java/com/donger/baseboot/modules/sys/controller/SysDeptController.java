@@ -3,14 +3,19 @@ package com.donger.baseboot.modules.sys.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.donger.baseboot.core.common.exception.BizException;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
+import com.donger.baseboot.core.web.BaseController;
+import com.donger.baseboot.core.web.UserDetail;
 import com.donger.baseboot.modules.sys.entity.SysDept;
+import com.donger.baseboot.modules.sys.entity.SysMenu;
 import com.donger.baseboot.modules.sys.service.SysDeptService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -21,7 +26,7 @@ import java.util.List;
 @RequestMapping("/sys/dept")
 @AllArgsConstructor
 @Slf4j
-public class SysDeptController {
+public class SysDeptController extends BaseController {
 
     private final SysDeptService sysDeptService;
 
@@ -35,6 +40,15 @@ public class SysDeptController {
     }
 
     /**
+     * 树形部门列表
+     */
+    @RequestMapping("/dept/tree")
+    public Result nav(){
+        List<SysDept> depts = sysDeptService.getUserDeptList();
+        return Res.ok().data(depts);
+    }
+
+    /**
      * 添加部门
      *
      * @param entity
@@ -42,6 +56,8 @@ public class SysDeptController {
      */
     @PostMapping("/add")
     public Result add(@RequestBody SysDept entity) {
+        entity.setCreateBy(this.getUserDetail().getUser().getId());
+        entity.setCreateDate(LocalDateTime.now());
         sysDeptService.save(entity);
         return Res.ok();
     }
@@ -75,6 +91,8 @@ public class SysDeptController {
      */
     @PostMapping("/update")
     public Result update(@RequestBody SysDept entity) {
+        entity.setUpdateBy(this.getUserDetail().getUser().getId());
+        entity.setUpdateDate(LocalDateTime.now());
         sysDeptService.updateById(entity);
         return Res.ok();
     }

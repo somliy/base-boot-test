@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
+import com.donger.baseboot.core.web.BaseController;
 import com.donger.baseboot.modules.sys.entity.SysRole;
 import com.donger.baseboot.modules.sys.service.SysRoleMenuService;
 import com.donger.baseboot.modules.sys.service.SysRoleService;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ import java.util.List;
 @RequestMapping("/sys/role")
 @AllArgsConstructor
 @Slf4j
-public class SysRoleController {
+public class SysRoleController extends BaseController {
 
     private final SysRoleService sysRoleService;
     private final SysRoleMenuService sysRoleMenuService;
@@ -45,6 +47,8 @@ public class SysRoleController {
      */
     @PostMapping("/add")
     public Result add(@RequestBody SysRole entity){
+        entity.setCreateBy(this.getUserDetail().getUser().getId());
+        entity.setCreateDate(LocalDateTime.now());
         sysRoleService.addRole(entity);
         return Res.ok();
     }
@@ -76,6 +80,8 @@ public class SysRoleController {
      */
     @PostMapping("/update")
     public Result update(@RequestBody SysRole entity){
+        entity.setUpdateBy(this.getUserDetail().getUser().getId());
+        entity.setUpdateDate(LocalDateTime.now());
         sysRoleService.updateRoleById(entity);
         return Res.ok();
     }
