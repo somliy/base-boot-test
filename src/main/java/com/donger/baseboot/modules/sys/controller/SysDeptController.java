@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
+import com.donger.baseboot.core.common.web.BaseController;
 import com.donger.baseboot.modules.sys.entity.SysDept;
 import com.donger.baseboot.modules.sys.service.SysDeptService;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequestMapping("/sys/dept")
 @AllArgsConstructor
 @Slf4j
-public class SysDeptController {
+public class SysDeptController extends BaseController {
 
     private final SysDeptService sysDeptService;
 

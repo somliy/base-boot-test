@@ -1,7 +1,12 @@
 package com.donger.baseboot.config.base;
 
-import com.donger.baseboot.config.auth.realm.MyRealm;
+import cn.hutool.core.collection.CollectionUtil;
+import com.donger.baseboot.config.auth.filter.JwtFilter;
+import com.donger.baseboot.config.auth.realm.TokenRealm;
+import com.donger.baseboot.config.auth.realm.UserNameRealm;
+import com.donger.baseboot.config.properties.ShiroConfigProperties;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -12,8 +17,8 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import javax.servlet.Filter;
+import java.util.*;
 
 /**
  * Shiro配置
@@ -25,7 +30,18 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    @Bean("sessionManager")
+    @Bean(name = "securityManager")
+    public DefaultWebSecurityManager defaultWebSecurityManager(SessionManager sessionManager) {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        Collection<Realm> realms = new ArrayList<Realm>();
+        realms.add(userNameRealm());
+        realms.add(tokenRealm());
+        securityManager.setRealms(realms);
+        securityManager.setSessionManager(sessionManager);
+        return securityManager;
+    }
+
+    @Bean(name = "sessionManager")
     public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionValidationSchedulerEnabled(true);
@@ -33,33 +49,40 @@ public class ShiroConfig {
         return sessionManager;
     }
 
-    @Bean("securityManager")
-    public SecurityManager securityManager(MyRealm myRealm, SessionManager sessionManager) {
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(myRealm);
-        securityManager.setSessionManager(sessionManager);
+    @Bean(name = "shiroFilter")
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager, ShiroConfigProperties shiroConfigProperties) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
 
-        return securityManager;
+
+        // 添加自己的过滤器并且取名为jwt
+        Map<String, Filter> filterMap = new HashMap<>();
+        filterMap.put("jwt", new JwtFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
+
+        // 自定义url 拦截器
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        if (CollectionUtil.isNotEmpty(shiroConfigProperties.getAnonUrls())) {
+            for (String url : shiroConfigProperties.getAnonUrls()) {
+                filterChainDefinitionMap.put(url, "anon");
+            }
+        }
+        filterChainDefinitionMap.put("/**", "jwt");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+
+        return shiroFilterFactoryBean;
     }
 
-    @Bean("shiroFilter")
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
-        ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
-        shiroFilter.setSecurityManager(securityManager);
-        Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/webjars/**", "anon");
-        filterMap.put("/druid/**", "anon");
-        filterMap.put("/sys/login", "anon");
-        filterMap.put("/swagger/**", "anon");
-        filterMap.put("/v2/api-docs", "anon");
-        filterMap.put("/swagger-ui.html", "anon");
-        filterMap.put("/swagger-resources/**", "anon");
-        //对所有用户认证
-//        filterMap.put("/**","authc");
-        shiroFilter.setFilterChainDefinitionMap(filterMap);
-
-        return shiroFilter;
+    @Bean(name = "UserNameRealm")
+    public UserNameRealm userNameRealm() {
+        return new UserNameRealm();
     }
+
+    @Bean(name = "TokenRealm")
+    public TokenRealm tokenRealm() {
+        return new TokenRealm();
+    }
+
 
     @Bean("lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {

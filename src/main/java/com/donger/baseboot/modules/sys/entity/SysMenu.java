@@ -2,7 +2,7 @@ package com.donger.baseboot.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.donger.baseboot.core.entity.BaseEntity;
+import com.donger.baseboot.core.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
