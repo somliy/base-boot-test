@@ -87,7 +87,7 @@ public class SysUserController extends BaseController {
     public Result update(@RequestBody SysUser entity) {
         entity.setUpdateBy(this.getUserDetail().getUser().getId());
         entity.setUpdateDate(LocalDateTime.now());
-        sysUserService.updateUserById(entity);
+        sysUserService.updateById(entity);
         return Res.ok();
     }
 
