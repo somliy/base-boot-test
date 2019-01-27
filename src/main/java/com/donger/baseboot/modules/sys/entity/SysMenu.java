@@ -21,9 +21,11 @@ public class SysMenu extends BaseEntity<SysMenu> {
     private Long id;
     private Long parentId;
     private String name;
+    private String label;
+
     private String orderNum;
     private String path;
-    private String target;
+    private String component;
     private String type;
     private String icon;
     private String isShow;
@@ -41,7 +43,7 @@ public class SysMenu extends BaseEntity<SysMenu> {
     private Boolean open;
 
     @TableField(exist=false)
-    private List<SysMenu> childern;
+    private List<SysMenu> children;
 
 
 

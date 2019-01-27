@@ -70,7 +70,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             return null;
         }
         for (SysMenu sysMenu : childList) {
-            sysMenu.setChildern(recursiveBuildTree(sysMenuList, sysMenu.getId()));
+            sysMenu.setChildren(recursiveBuildTree(sysMenuList, sysMenu.getId()));
         }
         return childList;
     }

@@ -7,20 +7,14 @@
 	<select id="queryMenuByUserId"
 			resultType="com.donger.baseboot.modules.sys.entity.SysMenu">
         SELECT
-            b.id     AS "id",
-            b.parent_id   AS "parentId",
-            b.name        AS "name",
-            b.path         AS "path",
-            b.perms       AS "perms",
-            b.type        AS "type",
-            b.icon        AS "icon"
+            b.*
         FROM (
                  SELECT DISTINCT rm.menu_id
                  FROM sys_user_role ur
-                          LEFT JOIN sys_role_menu rm ON ur.role_id = rm.role_id
-                 WHERE ur.user_id = #{currentUserId}
+                 LEFT JOIN sys_role_menu rm ON ur.role_id = rm.role_id
+                 WHERE ur.user_id = #{userId}
              ) a
-                 LEFT JOIN sys_menu b ON b.id = a.menu_id
+        LEFT JOIN sys_menu b ON b.id = a.menu_id
         WHERE b.del_flag = '0'
           AND b.type != '2'
         ORDER BY b.order_num ASC

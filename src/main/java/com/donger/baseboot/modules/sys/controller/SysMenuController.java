@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.donger.baseboot.core.common.constant.CommonConstants;
+import com.donger.baseboot.core.common.entity.UserDetail;
 import com.donger.baseboot.core.common.exception.BizException;
+import com.donger.baseboot.core.common.web.BaseController;
 import com.donger.baseboot.core.utils.Res;
 import com.donger.baseboot.core.utils.Result;
-import com.donger.baseboot.core.web.BaseController;
-import com.donger.baseboot.core.web.UserDetail;
 import com.donger.baseboot.modules.sys.entity.SysMenu;
 import com.donger.baseboot.modules.sys.entity.SysUser;
 import com.donger.baseboot.modules.sys.service.SysMenuService;
@@ -34,15 +34,6 @@ import java.util.Set;
 public class SysMenuController extends BaseController {
     
     private final SysMenuService sysMenuService;
-
-    /**
-     * 所有菜单列表
-     */
-    @GetMapping("/page")
-    public Result<IPage<SysMenu>> page(Page<SysMenu> page, SysMenu entity){
-        IPage<SysMenu> list = sysMenuService.page(page, Wrappers.query(entity));
-        return Res.ok(list);
-    }
     /**
      * 所有菜单列表
      */
@@ -62,10 +53,9 @@ public class SysMenuController extends BaseController {
     /**
      * 导航菜单
      */
-    @RequestMapping("/nav")
+    @GetMapping("/nav")
     public Result nav(){
         UserDetail userDetail = getUserDetail();
-
         List<SysMenu> menuList = sysMenuService.getUserMenuList(userDetail.getUser().getId());
         return Res.ok(menuList);
     }

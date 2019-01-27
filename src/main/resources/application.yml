@@ -3,7 +3,7 @@ server:
     uri-encoding: UTF-8
     max-threads: 1000
     min-spare-threads: 30
-  port: 8080
+  port: 9999
   connection-timeout: 5000ms
 
 spring:
@@ -11,8 +11,6 @@ spring:
     name: base-boot
   profiles:
     active: dev
-
-
 
 ##mybatis-plus mapper xml 文件地址
 mybatis-plus:
