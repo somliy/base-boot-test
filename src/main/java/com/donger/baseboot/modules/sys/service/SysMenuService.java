@@ -34,4 +34,7 @@ public interface SysMenuService extends IService<SysMenu> {
     void delete(Long menuId);
 
 
+    List<SysMenu> getMenuAll();
+
+
 }

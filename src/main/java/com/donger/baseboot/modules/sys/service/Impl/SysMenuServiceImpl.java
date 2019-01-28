@@ -48,6 +48,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return recursiveBuildTree(baseMapper.queryMenuByUserId(userId), SysMenu.LEVEL_ONE_MENU);
     }
 
+
+    @Override
+    public List<SysMenu> getMenuAll(){
+        return recursiveBuildTree(baseMapper.selectList(null),SysMenu.LEVEL_ONE_MENU);
+
+    }
+
     @Override
     public void delete(Long menuId) {
         //删除菜单

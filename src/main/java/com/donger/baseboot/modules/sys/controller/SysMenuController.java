@@ -38,16 +38,10 @@ public class SysMenuController extends BaseController {
      * 所有菜单列表
      */
     @GetMapping("/list")
-    public List<SysMenu> list(){
-        List<SysMenu> menuList = sysMenuService.list();
+    public Result list(){
+        List<SysMenu> menuAll = sysMenuService.getMenuAll();
 
-        for(SysMenu sysMenu : menuList){
-            SysMenu parentMenu = sysMenuService.getById(sysMenu.getParentId());
-            if(parentMenu != null){
-                sysMenu.setParentName(parentMenu.getName());
-            }
-        }
-        return menuList;
+        return Res.ok(menuAll);
     }
 
     /**
