@@ -13,6 +13,7 @@ import com.donger.baseboot.core.utils.Result;
 import com.donger.baseboot.modules.sys.entity.SysMenu;
 import com.donger.baseboot.modules.sys.entity.SysUser;
 import com.donger.baseboot.modules.sys.service.SysMenuService;
+import com.sun.javafx.collections.MappingChange;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -20,8 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author: szwei
@@ -51,7 +51,45 @@ public class SysMenuController extends BaseController {
     public Result nav(){
         UserDetail userDetail = getUserDetail();
         List<SysMenu> menuList = sysMenuService.getUserMenuList(userDetail.getUser().getId());
-        return Res.ok(menuList);
+        List<String> strings = new ArrayList<>();
+        strings.add("sys:schedule:info");
+        strings.add("sys:menu:update");
+        strings.add("sys:menu:delete");
+        strings.add("sys:config:info");
+        strings.add("sys:menu:list");
+        strings.add("sys:config:save");
+        strings.add("sys:config:update");
+        strings.add("sys:schedule:resume");
+        strings.add("sys:user:delete");
+        strings.add("sys:config:list");
+        strings.add("sys:user:update");
+        strings.add("sys:role:list");
+        strings.add("sys:menu:info");
+        strings.add("sys:menu:select");
+        strings.add("sys:schedule:update");
+        strings.add("sys:schedule:save");
+        strings.add("sys:role:select");
+        strings.add("sys:user:list");
+        strings.add("sys:menu:save");
+        strings.add("sys:role:save");
+        strings.add("sys:schedule:log");
+        strings.add("sys:role:info");
+        strings.add("sys:schedule:delete");
+        strings.add("sys:role:update");
+        strings.add("sys:schedule:list");
+        strings.add("sys:user:info");
+        strings.add("sys:schedule:run");
+        strings.add("sys:config:delete");
+        strings.add("sys:role:delete");
+        strings.add("sys:user:save");
+        strings.add("sys:schedule:pause");
+        strings.add("sys:log:list");
+        strings.add("sys:oss:all");
+
+        Map<String, List> map = new HashMap<>();
+        map.put("permissions", strings);
+        map.put("data",menuList);
+        return Res.ok(map);
     }
     /**
      * 选择菜单(添加、修改菜单)
